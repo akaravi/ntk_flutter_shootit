@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shootto/screens/homescreen.dart';
 import 'package:shootto/screens/login1.dart';
+import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:shootto/screens/profile.dart';
+import 'package:shootto/screens/settings.dart';
 
 void main() {
   runApp(const MyApp());
