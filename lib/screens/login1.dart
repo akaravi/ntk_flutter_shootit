@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shootto/constant.dart';
 import 'package:shootto/screens/login2.dart';
 
@@ -8,6 +9,7 @@ class Login1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Blue,
@@ -31,15 +33,17 @@ class Login1 extends StatelessWidget {
               Text(
                 'ShootTo',
                 style: TextStyle(
-                    color: Gray1, fontSize: 30, fontWeight: FontWeight.bold),
+                    color: textColor,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 30),
               Container(
                 alignment: Alignment.topRight,
                 margin: EdgeInsets.only(right: 40),
                 child: Text(
-                  'تلفن همراه',
-                  style: TextStyle(fontSize: 20, color: Gray2),
+                  ':تلفن همراه',
+                  style: TextStyle(fontSize: 20, color: textColor),
                 ),
               ),
               Container(
@@ -52,6 +56,12 @@ class Login1 extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
                 child: TextField(
                   textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(
+                      (RegExp(r'[a-z]')),
+                    )
+                  ],
                   decoration: InputDecoration(
                       hintText: '+98 9 - - - - - - - - -',
                       hintStyle: TextStyle(color: Gray2, fontSize: 17),
@@ -63,7 +73,7 @@ class Login1 extends StatelessWidget {
                 margin: EdgeInsets.only(right: 40),
                 child: Text(
                   'عبارت مقابل را وارد کنید',
-                  style: TextStyle(fontSize: 20, color: Gray2),
+                  style: TextStyle(fontSize: 20, color: textColor),
                 ),
               ),
               Container(
@@ -85,6 +95,12 @@ class Login1 extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30)),
                       child: TextField(
                         textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(
+                            (RegExp(r'[a-z]')),
+                          )
+                        ],
                         decoration: InputDecoration(
                             hintText: ' - - - - -',
                             hintStyle: TextStyle(color: Gray2, fontSize: 20),
@@ -110,7 +126,7 @@ class Login1 extends StatelessWidget {
                   child: Text(
                     'ارسال کد',
                     style: TextStyle(
-                        color: Gray1,
+                        color: Colors.white,
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
                   ),

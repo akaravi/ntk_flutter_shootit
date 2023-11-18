@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shootto/constant.dart';
 import 'package:shootto/screens/homescreen.dart';
 import 'package:shootto/screens/login1.dart';
@@ -9,6 +10,7 @@ class Login2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Blue,
@@ -33,7 +35,9 @@ class Login2 extends StatelessWidget {
               Text(
                 'ShootTo',
                 style: TextStyle(
-                    color: Gray1, fontSize: 30, fontWeight: FontWeight.bold),
+                    color: textColor,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 30),
               Container(
@@ -41,7 +45,7 @@ class Login2 extends StatelessWidget {
                 margin: EdgeInsets.only(right: 40),
                 child: Text(
                   'کد ارسال شده را وارد نمایید',
-                  style: TextStyle(fontSize: 20, color: Gray2),
+                  style: TextStyle(fontSize: 20, color: textColor),
                 ),
               ),
               Container(
@@ -54,6 +58,10 @@ class Login2 extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
                 child: TextField(
                   textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                   decoration: InputDecoration(
                       hintText: ' - - - - - - - - -',
                       hintStyle: TextStyle(color: Gray2, fontSize: 25),
@@ -92,7 +100,7 @@ class Login2 extends StatelessWidget {
                   child: Text(
                     'ورود',
                     style: TextStyle(
-                        color: Gray1,
+                        color: Colors.white,
                         fontSize: 27,
                         fontWeight: FontWeight.bold),
                   ),
