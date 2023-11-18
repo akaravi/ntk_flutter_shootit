@@ -110,7 +110,7 @@ class Login1 extends StatelessWidget {
                   child: Text(
                     'ارسال کد',
                     style: TextStyle(
-                        color: Gray1,
+                        color: Colors.white,
                         fontSize: 30,
                         fontWeight: FontWeight.bold),
                   ),

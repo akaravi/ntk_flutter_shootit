@@ -25,13 +25,15 @@ class HomeScreen extends StatelessWidget {
             Text(
               'ShootTo',
               style: TextStyle(
-                  fontSize: 18, color: Gray1, fontWeight: FontWeight.bold),
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             Spacer(),
           ],
         ),
-        iconTheme: IconThemeData(color: Color.fromARGB(255, 108, 103, 103)),
+        iconTheme: IconThemeData(color: Color.fromARGB(255, 255, 255, 255)),
       ),
       endDrawer: Drawer(
         child: ListView(
@@ -42,63 +44,69 @@ class HomeScreen extends StatelessWidget {
               currentAccountPicture: FlutterLogo(),
             ),
             ListTile(
+              leading: Icon(Icons.folder_open_outlined),
               title: Text('Destination Folder'),
+              onTap: () {},
             ),
             ListTile(
+              leading: Icon(Icons.language_outlined),
               title: Text('Website'),
             ),
             ListTile(
+              leading: Icon(Icons.send_to_mobile_rounded),
               title: Text('Invite'),
             ),
             ListTile(
+              leading: Icon(Icons.rate_review_outlined),
               title: Text('Rate us'),
             ),
             ListTile(
+              leading: Icon(Icons.info_outline),
               title: Text('About'),
             ),
           ],
         ),
       ),
-      // body: MainScreen(),
+      body: NavigationBar(),
     );
   }
 }
 
-// class MainScreen extends StatefulWidget {
-//   const MainScreen({super.key});
+class NavigationBar extends StatefulWidget {
+  const NavigationBar({super.key});
 
-//   @override
-//   State<MainScreen> createState() => _MainScreenState();
-// }
+  @override
+  State<NavigationBar> createState() => _NavigationBar();
+}
 
-// class _MainScreenState extends State<MainScreen> {
-//   int currentIndex = 0;
-//   Widget body = const HomeScreen();
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       bottomNavigationBar: AnimatedBottomNavigationBar(
-//         inactiveColor: Colors.black54,
-//         icons: [Icons.home, Icons.settings, Icons.account_balance_rounded],
-//         activeIndex: currentIndex,
-//         gapLocation: GapLocation.end,
-//         notchSmoothness: NotchSmoothness.smoothEdge,
-//         onTap: (index) {
-//           setState(() {
-//             if (index == 0) {
-//               body = const HomeScreen();
-//             } else if (index == 1) {
-//               body = const SettingsScreen();
-//             } else {
-//               body = const ProfileScreen();
-//             }
+class _NavigationBar extends State<NavigationBar> {
+  int currentIndex = 0;
+  Widget body = const HomeScreen();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      bottomNavigationBar: AnimatedBottomNavigationBar(
+        inactiveColor: Colors.black54,
+        icons: [Icons.home, Icons.settings, Icons.person],
+        activeIndex: currentIndex,
+        gapLocation: GapLocation.none,
+        notchSmoothness: NotchSmoothness.smoothEdge,
+        onTap: (index) {
+          setState(() {
+            if (index == 0) {
+              body = const HomeScreen();
+            } else if (index == 1) {
+              body = const SettingsScreen();
+            } else {
+              body = const ProfileScreen();
+            }
 
-//             currentIndex = index;
-//           });
-//         },
-//       ),
-//       body: body,
-//     );
-//   }
-// }
+            currentIndex = index;
+          });
+        },
+      ),
+      // body: body,
+    );
+  }
+}

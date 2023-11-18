@@ -92,7 +92,7 @@ class Login2 extends StatelessWidget {
                   child: Text(
                     'ورود',
                     style: TextStyle(
-                        color: Gray1,
+                        color: Colors.white,
                         fontSize: 27,
                         fontWeight: FontWeight.bold),
                   ),
