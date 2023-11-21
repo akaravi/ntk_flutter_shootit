@@ -31,6 +31,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.5  
+  json_annotation: ^4.8.1
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,7 +41,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  ntk_cms_flutter_base: ^0.0.10  
+  ntk_cms_flutter_base: ^0.0.10 
+  build_runner: ^2.4.6 
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
