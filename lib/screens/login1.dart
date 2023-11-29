@@ -1,14 +1,19 @@
-import 'dart:js_interop';
-
+import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:ntk_cms_flutter_base/src/backend/api/core/core_auth_api.dart';
+import 'package:ntk_cms_flutter_base/src/backend/config/dio.dart';
+import 'package:ntk_cms_flutter_base/src/backend/service/splash/auth_service.dart';
+import 'package:ntk_cms_flutter_base/src/controller/base/login_controller.dart';
+import 'package:ntk_cms_flutter_base/src/models/entity/base/captcha_model.dart';
+import 'package:ntk_cms_flutter_base/src/view/base_auth_page.dart';
+import 'package:ntk_cms_flutter_base/src/view/capcha_widget.dart';
+import 'package:retrofit/dio.dart';
+import 'package:shootto/screens/auth_sms_confirm_controller.dart';
 import 'package:shootto/constant.dart';
 import 'package:shootto/global_data.dart';
 import 'package:shootto/screens/login2.dart';
-import 'package:ntk_cms_flutter_base/src/controller/base/login_controller.dart';
-import 'package:ntk_cms_flutter_base/src/models/entity/base/captcha_model.dart';
-import 'package:ntk_cms_flutter_base/src/backend/api/core/core_auth_api.dart';
-import 'package:ntk_cms_flutter_base/src/view/base_auth_page.dart';
-import 'package:ntk_cms_flutter_base/src/view/capcha_widget.dart';
+import 'base_auth.dart';
 
 class Login1 extends StatefulWidget {
   const Login1({super.key});
@@ -20,28 +25,36 @@ class Login1 extends StatefulWidget {
 class _Login1State extends State<Login1> {
   //controller object for login form
   final loginController = LoginController();
-  late AuthMethodApi directAPI;
+  late AuthService authService;
   bool captchaNotValid = false;
   late CaptchaModel captchaModel;
-
+  final registerMobileController = AuthSmsController();
   @override
   void dispose() {
     loginController.dispose();
     super.dispose();
   }
 
+  @override
+  void initState() {
+    CaptchaWidget.captcha = null;
+  }
+
   Future<CaptchaModel> getCaptcha() async {
-    var errorException = await directAPI.captcha();
-    if (errorException.isSuccess) {
-      return errorException.item ?? CaptchaModel();
-    } else {
-      throw Exception(errorException.errorMessage);
-    }
+    captchaModel = new CaptchaModel();
+    authService = new AuthService();
+    // captchaModel.image;
+    return await authService.getCaptcha();
   }
 
   @override
   Widget build(BuildContext context) {
-    getCaptcha().then((value) => captchaModel = value);
+    getCaptcha().then((value) {
+      setState(() {
+        captchaModel = value;
+      });
+    });
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -110,22 +123,14 @@ class _Login1State extends State<Login1> {
                       width: 145,
                       child: Image.network(captchaModel.image.toString()),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 10),
-                      width: 125,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Color.fromARGB(46, 158, 158, 158),
-                          border: Border.all(width: 3, color: Blue),
-                          borderRadius: BorderRadius.circular(30)),
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                            hintText: ' - - - - -',
-                            hintStyle: TextStyle(color: Gray2, fontSize: 20),
-                            border: InputBorder.none),
-                      ),
-                    ),
+                    getCaptchaWidget(
+                        registerMobileController.captchaTextController),
+                    //captcha hint
+                    getHintWidget(
+                        "",
+                        captchaNotValid
+                            ? registerMobileController.captchaErrorText()
+                            : null),
                   ],
                 ),
               ),
@@ -186,13 +191,32 @@ class _Login1State extends State<Login1> {
           )),
     );
   }
+  
+  @override
+  
+loadCaptcha(CaptchaModel chModel) {
+    registerMobileController.model = chModel;
+  }
+   registerClicked() async {
+    if (registerMobileController.captchaErrorText() != null) {
+      captchaNotValid = true;
+    } else {
+      captchaNotValid = false;
+    }
+  setState(() {});
+    //if error Occurred
+    if (mobileNotValid || captchaNotValid) {
+      return;
+    }
+    var myDialogs = MyDialogs();
+    myDialogs.showProgress(context);
 
   Widget getCaptchaWidget(TextEditingController captchaTextController,
       {void Function(CaptchaModel chModel)? func}) {
-    // func ??= loadCaptcha;
+    func ??= loadCaptcha;
     return captchaInputLayout(captchaTextController, func);
   }
-
+ 
   static captchaInputLayout(TextEditingController captchaTextController,
       void Function(CaptchaModel chModel)? func) {
     Color gray = GlobalColor.colorTextPrimary.withOpacity(.8);
@@ -239,5 +263,6 @@ class _Login1State extends State<Login1> {
         ),
       ),
     );
+    
   }
 }
